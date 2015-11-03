@@ -7,15 +7,20 @@
 
 # Site settings
 title: Anjar Febrianto
-email: your-email@domain.com
+email: anxfeb@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
-
+url: "http://jar.web.id" # the base hostname & protocol for your site
+twitter_username: anxfeb
+github_username:  anxfeb
+fb_username : anxfeb
+instagram_username : anxfeb
+linkedin_url : https://id.linkedin.com/in/anxfeb
+gplus_url : https://plus.google.com/u/0/+AnjarFebrianto
+youtube_channel : https://www.youtube.com/channel/UCuR_Pef577Jm4RpoBbyON3A
+permalink: journal/:year/:month/:day/:title.html
 # Build settings
 markdown: kramdown

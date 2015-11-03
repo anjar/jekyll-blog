@@ -1,38 +1,35 @@
-<footer class="site-footer">
-
-  <div class="wrapper">
-
-    <h2 class="footer-heading">{{ site.title }}</h2>
-
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li>{{ site.title }}</li>
-          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-2">
-        <ul class="social-media-list">
-          {% if site.github_username %}
-          <li>
-            {% include icon-github.html username=site.github_username %}
-          </li>
+<div id="ft">
+    <div class="container">
+      <div class="row centered">
+        <div class="col-md-8 col-md-offset-2">
+          {% if site.fb_username %}
+            <a href="http://www.facebook.com/{{ site.fb_username }}" target="_blank" rel="nofollow"><i class="ion-social-facebook"></i></a>
           {% endif %}
 
           {% if site.twitter_username %}
-          <li>
-            {% include icon-twitter.html username=site.twitter_username %}
-          </li>
+            <a href="https://twitter.com/{{ site.twitter_username }}" target="_blank" rel="nofollow"><i class="ion-social-twitter"></i></a>
           {% endif %}
-        </ul>
-      </div>
 
-      <div class="footer-col footer-col-3">
-        <p>{{ site.description }}</p>
-      </div>
-    </div>
+          {% if site.instagram_username %}
+            <a href="https://instagram.com/{{ site.instagram_username }}" target="_blank" rel="nofollow"><i class="ion-social-instagram"></i></a>
+          {% endif %}
 
+          {% if site.linkedin_url %}
+            <a href="{{ site.linkedin_url }}" target="_blank" rel="nofollow"><i class="ion-social-linkedin"></i></a>
+          {% endif %}
+
+          {% if site.gplus_url %}
+            <a href="{{ site.gplus_url }}" target="_blank" rel="nofollow"><i class="ion-social-googleplus"></i></a>
+          {% endif %}
+
+          {% if site.youtube_channel %}
+            <a href="{{ site.youtube_channel }}" target="_blank" rel="nofollow"><i class="ion-social-youtube"></i></a>
+          {% endif %}
+          {% if site.github_username %}
+            <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="nofollow"><i class="ion-social-github"></i></a>
+          {% endif %}
+
+        </div><!--/col-md-8-->
+      </div>
+    </div><!--/container-->
   </div>
-
-</footer>

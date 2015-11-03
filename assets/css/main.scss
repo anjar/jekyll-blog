@@ -1,0 +1,354 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+@import "bootstrap";
+@import "ionicons";
+
+
+/*
+ * Author: Carlos Alvarez
+ * URL: http://alvarez.is
+ *
+ * Project Name: STANLEY - Free Bootstrap 3 Theme
+ * Version: 1.0
+ * URL: http://blacktie.co
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+body {
+  	background-color: #ffffff;
+  	font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #555;
+
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Titles */
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #333;
+}
+
+h1 {
+	font-size: 35px;
+}
+
+
+/* Paragraph & Typographic */
+p {
+    line-height: 28px;
+    font-size: 16px;
+}
+
+.centered {
+    text-align: center;
+}
+
+/* Links */
+a {
+    color: #1abc9c;
+    word-wrap: break-word;
+
+    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+    transition: color 0.1s ease-in, background 0.1s ease-in;
+}
+
+a:hover,
+a:focus {
+    color: #7b7b7b;
+    text-decoration: none;
+    outline: 0;
+}
+
+a:before,
+a:after {
+    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+    transition: color 0.1s ease-in, background 0.1s ease-in;
+}
+
+ hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+
+.navbar {
+	text-transform: uppercase;
+	margin-bottom: 0px;
+}
+
+.navbar-inverse {
+	/*padding-bottom: 70px;
+	padding-top: 70px;*/
+}
+
+.navbar-inverse {
+	background-color: #1abc9c;
+	border-color: #16a085;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+	color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+	color: #222222;
+}
+
+.navbar-brand {
+	font-weight: 700;
+	font-size: 20px;
+	letter-spacing: 2px;
+}
+
+.navbar-inverse .navbar-brand {
+	color: white;
+}
+
+.navbar-inverse .navbar-toggle {
+	border-color: transparent;
+}
+
+.progress-bar-theme {
+  background-color: #1abc9c;
+}
+
+
+/* Helpers */
+
+.mt {
+	margin-top: 10px;
+	margin-bottom: 100px;
+}
+
+.pt {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+/* +++++ WRAP SECTIONS +++++ */
+
+#ww {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #f2f2f2;
+}
+
+
+/* +++++ Color Wraps / Blog Page +++++ */
+
+#grey {
+	padding-top: 60px;
+	padding-bottom: 60px;
+	background-color: #f2f2f2;
+}
+
+#white {
+	padding-top: 60px;
+	padding-bottom: 60px;
+	background-color: #ffffff;
+}
+
+
+
+/* Blog Date*/
+bd {
+	font-size: 12px;
+	text-transform: uppercase;
+	color: #d2d2d2;
+	font-weight: 700;
+}
+
+/* Blog Author*/
+ba {
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+/* Blog Quote */
+.bq {
+	font-size: 22px;
+	padding-top: 30px;
+}
+
+/* Blog Tags */
+bt {
+	font-size: 12px;
+}
+
+/* ================== PORTFOLIO IMAGES HOVER EFFECT ================== */
+/* Effects also are controled by hover.zoom.js */
+.zoom {
+    display:block;
+    position:relative;
+    overflow:hidden;
+    background:transparent url(../img/loader.gif) no-repeat center;
+}
+
+
+    .zoomOverlay {
+        position:absolute;
+        top:0; left:0;
+        bottom:0; right:0;
+        display:none;
+        background-image:url(../img/zoom.png);
+        background-repeat:no-repeat;
+        background-position:center;
+    }
+
+.zoom2 {
+	opacity: 1;
+}
+
+.zoom2:hover {
+	opacity: 0.5;
+}
+
+/* glyphicon Configuration */
+
+.glyphicon {
+	font-size: 40px;
+	color: #1abc9c;
+}
+
+
+
+
+/*baru*/
+#ba{    margin-bottom: 100px;}
+.bp {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.bp-box {
+    background: #D3E2DA;
+    height: 220px;
+    overflow: hidden;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: column nowrap;
+    flex-flow: column nowrap;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    transition: .25s ease;
+    transition-property: opacity background;
+    opacity: .7
+}
+.bp-box,
+.bp-box:focus,
+.bp-box:hover {
+    text-decoration: none;
+    color: inherit
+}
+.bp-box:hover {
+    opacity: 1
+}
+.bp-box-head {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: column wrap;
+    flex-flow: column wrap;
+    -webkit-align-items: center;
+    align-items: center
+}
+.bp-box-title {
+    font-size: 1.8rem;
+    line-height: 2.3rem;
+    -webkit-flex-grow: 2;
+    flex-grow: 2;
+    text-align: center;
+    width: 75%
+}
+.bp-box-subTitle {
+    font-size: .8rem;
+    line-height: 1.7rem;
+    text-transform: uppercase
+}
+.blog-title, .blog-title:hover {
+    background-image: url('../img/blog.jpg');
+    background-size: 100% 100%;
+}
+.blog-post-container .bp-box:nth-child(3n) {
+    opacity: .4;
+}
+.bp-title .bp-box-title {
+    font-size: 2.1rem;
+    color: #fff
+}
+.bp-title:hover {
+    background: inherit inherit/inherit inherit inherit inherit
+}
+.bp-title,
+.bp-title:hover {
+    background-image: url('../img/blog.jpg');
+    background-size: 100% 100%
+}
+
+#ft {
+	width: 100%;
+	position: fixed;
+	bottom:0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #1abc9c;
+    border-color: #16a085;
+	opacity: 0.7;
+}
+
+#ft i {
+	margin-right: 30px;
+	font-size: 35px;
+}
+
+#ft a {
+	color: white;
+}
+
+#overlay    {
+            width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background:rgba(0,0,0,.75);
+               text-align:center;
+               padding:45px 0 66px 0;
+               opacity:0;
+               -webkit-transition: opacity .25s ease;
+-moz-transition: opacity .25s ease;}
+
+.bp-box:hover #overlay {
+               opacity:1;}
+
+
+#overlay .bp-box-title {
+    width: 100%;
+    color: #ffffff;
+}
+
+#overlay .bp-box-subTitle {
+    color: #ffffff;
+}
+
+.black{color: #000000;}
+.bp-post{ margin-bottom: 100px;}

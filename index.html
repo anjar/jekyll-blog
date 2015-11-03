@@ -1,23 +1,52 @@
 ---
 layout: default
 ---
+<div id="ww">
+    <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 centered">
+        <img src="{{ "/assets/img/user.png" | prepend: site.baseurl }}" alt="Stanley">
+        <h1 class="name">Anjar Febrianto</h1>
+        <p>Husband/ Web Developer/ Gamer</p>
+      </div><!-- /col-lg-8 -->
+    </div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /ww -->
 
-<div class="home">
+<style>
 
-  <h1 class="page-heading">Posts</h1>
+</style>
+<!-- +++++ Article Section +++++ -->
+<div id="ba" class="row">
+      <div class="col-xs-12 bp bp-container">
+          <a href="/journal" class="bp-box col-sm-3 bp-title">
+              <div class="bp-box-head">
+                  <div class="bp-box-title">Blog Post</div>
+                  <div class="bp-box-subTitle">Read my Journal</div>
+              </div>
+          </a>
+          {% for post in site.posts %}
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+            <a href="{{ post.url | prepend: site.baseurl }}" class="bp-box col-sm-3" style="background-image: url('');background-size:cover;">
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
+              {% if post.image %}
+              <div id="overlay">
+                <div class="bp-box-title">{{ post.title }}</div>
+                <div class="bp-box-subTitle">{{ post.date | date: "%b %-d, %Y" }}</div>
+              </div>
+              <div class="bp-box-head">
+                  <div class="bp-box-title black">{{ post.title }}</div>
+                  <div class="bp-box-subTitle black">{{ post.date | date: "%b %-d, %Y" }}</div>
+              </div>
+              {% else %}
+              <div class="bp-box-head">
+                  <div class="bp-box-title">{{ post.title }}</div>
+                  <div class="bp-box-subTitle">{{ post.date | date: "%b %-d, %Y" }}</div>
+              </div>
+              {% endif %}
+          </a>
+          {% endfor %}
+          <div class="loadmore"></div>
+      </div>
+  </div>
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
-</div>

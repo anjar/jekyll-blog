@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<div class="bp-post">
+
+{% for post in site.posts %}
+<div id="{% if forloop.counter0|divisibleby:2 %}grey{% else %} white {% endif %}">
+    <div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2">
+				<!-- <p><img src="assets/img/user.png" width="50px" height="50px"> <ba>Stanley Stinson</ba></p> -->
+				<p><bd>{{ post.date | date: "%b %-d, %Y" }}</bd></p>
+				<h4>{{ post.title }}</h4>
+				{% if post.image %}
+				<p><img class="img-responsive" src="{{ image.image|thumbnail_url:'journal_detail' }}" alt=""></p>
+				{% endif %}
+				<p>{{ post.excerpt }}</p>
+				<p><a href="{{ post.url | prepend: site.baseurl }}">Continue Reading...</a></p>
+			</div>
+
+		</div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /grey -->
+{% endfor %}
+</div>

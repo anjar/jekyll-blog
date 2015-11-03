@@ -1,15 +1,70 @@
 ---
 layout: default
 ---
+
+<div id="white">
+    <div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2">
+				<p>
+          <bd><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time></bd>
+          {% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}
+        </p>
+				<h4>{{ page.title }}</h4>
+
+
+        {% if page.image %}
+				<p><img class="img-responsive" src="{{ image.image|thumbnail_url:'journal_detail' }}" alt=""></p>
+				{% endif %}
+
+				{{ content }}
+				<br>
+				<p><bt>TAGS:
+          {{ page.tags | array_to_sentence_string }}
+					{%for tag in journal.tag.all %}
+					<a href="/tag/{{ tag.slug }}">{{ tag.title }}</a> -
+					{% endfor %}
+				</bt></p>
+				<hr>
+        <div id="related">
+          <h2>Related Posts</h2>
+          <ul class="posts">
+            {% for post in site.related_posts limit:3 %}
+              <li><span>{{ post.date | date: "%b %-d, %Y" }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <hr>
+				<div id="disqus_thread"></div>
+				<script type="text/javascript">
+				    /* * * CONFIGURATION VARIABLES * * */
+				    var disqus_shortname = 'anxfeb';
+
+				    /* * * DON'T EDIT BELOW THIS LINE * * */
+				    (function() {
+				        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+				    })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+				<hr>
+				<p><a href="/journal"># Back</a></p>
+			</div>
+
+		</div><!-- /row -->
+    </div> <!-- /container -->
+</div><!-- /white -->
+
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-    <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
+    <h1 class="post-title" itemprop="name headline"></h1>
+    <p class="post-meta"></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    {{ content }}
+
   </div>
 
 </article>
