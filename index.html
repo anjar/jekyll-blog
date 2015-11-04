@@ -7,7 +7,7 @@ layout: default
       <div class="col-lg-8 col-lg-offset-2 centered">
         <img src="{{ "/assets/img/user.png" | prepend: site.baseurl }}" alt="Stanley">
         <h1 class="name">Anjar Febrianto</h1>
-        <p>Husband/ Web Developer/ Gamer</p>
+        <p>Husband/ Programmer / ProGamer</p>
       </div><!-- /col-lg-8 -->
     </div><!-- /row -->
     </div> <!-- /container -->
@@ -27,16 +27,12 @@ layout: default
           </a>
           {% for post in site.posts %}
 
-            <a href="{{ post.url | prepend: site.baseurl }}" class="bp-box col-sm-3" style="background-image: url('');background-size:cover;">
+            <a href="{{ post.url | prepend: site.baseurl }}" class="bp-box col-sm-3" style="background-image: url('{{ post.image | preped: site.baseurl }}');background-size:cover;">
 
               {% if post.image %}
               <div id="overlay">
                 <div class="bp-box-title">{{ post.title }}</div>
                 <div class="bp-box-subTitle">{{ post.date | date: "%b %-d, %Y" }}</div>
-              </div>
-              <div class="bp-box-head">
-                  <div class="bp-box-title black">{{ post.title }}</div>
-                  <div class="bp-box-subTitle black">{{ post.date | date: "%b %-d, %Y" }}</div>
               </div>
               {% else %}
               <div class="bp-box-head">

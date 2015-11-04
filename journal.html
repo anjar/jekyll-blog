@@ -1,5 +1,7 @@
 ---
 layout: default
+title: "Read all of my journal here"
+excerpt: Welcome to my journal section, you can read all my journal here, from my life story and about IT and Game
 ---
 <div class="bp-post">
 
@@ -12,7 +14,7 @@ layout: default
 				<p><bd>{{ post.date | date: "%b %-d, %Y" }}</bd></p>
 				<h4>{{ post.title }}</h4>
 				{% if post.image %}
-				<p><img class="img-responsive" src="{{ image.image|thumbnail_url:'journal_detail' }}" alt=""></p>
+				<p><img class="img-responsive" src="{{ post.image | preped: site.baseurl }}" alt=""></p>
 				{% endif %}
 				<p>{{ post.excerpt }}</p>
 				<p><a href="{{ post.url | prepend: site.baseurl }}">Continue Reading...</a></p>

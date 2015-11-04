@@ -14,7 +14,7 @@
   <meta name="keywords" content="{% if page.keyword %}{{ page.keyword }}{% else %}{{ site.keyword }}{% endif %}" />
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="/static/img/khanza.jpg">
+  <meta property="og:image" content="{% if page.image %}{{ page.image | prepend: site.url }}{% else %}{{ "/assets/img/khanza.jpg" | prepend: site.url }}{% endif %}">
   <meta property="og:site_name" content="anxfeb">
   <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 

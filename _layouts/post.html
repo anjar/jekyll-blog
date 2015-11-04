@@ -14,7 +14,7 @@ layout: default
 
 
         {% if page.image %}
-				<p><img class="img-responsive" src="{{ image.image|thumbnail_url:'journal_detail' }}" alt=""></p>
+				<p><img class="img-responsive" src="{{ page.image | preped: site.baseurl }}" alt="{{ page.title }}"></p>
 				{% endif %}
 
 				{{ content }}
