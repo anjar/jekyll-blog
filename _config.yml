@@ -24,3 +24,5 @@ youtube_channel : https://www.youtube.com/channel/UCuR_Pef577Jm4RpoBbyON3A
 permalink: journal/:year/:month/:day/:title.html
 # Build settings
 markdown: kramdown
+gem:
+    - jekyll-sitemap
