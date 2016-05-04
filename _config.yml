@@ -19,7 +19,7 @@ instagram_username : anxfeb
 linkedin_url : https://id.linkedin.com/in/anxfeb
 gplus_url : https://plus.google.com/u/0/+AnjarFebrianto
 youtube_channel : https://www.youtube.com/channel/UCuR_Pef577Jm4RpoBbyON3A
-permalink: journal/:year/:month/:day/:title.html
+permalink: journal/:year/:month/:day/:hour:minute:second-:title.html
 # Build settings
 markdown: kramdown
 gem:

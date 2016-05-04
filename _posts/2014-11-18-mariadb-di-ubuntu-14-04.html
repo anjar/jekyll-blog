@@ -1,0 +1,38 @@
+---
+layout: post
+title: MariaDB di Ubuntu 14.04
+date: 2014-11-18 11:06:33 +0700
+categories:
+- Database
+tags:
+- install
+- mariadb
+image : /assets/img/post/mariadb.png
+---
+
+<p>MariaDB merupakan salah satu database yang sangat mirip dengan MySQL.&nbsp;Sang pembuatpun juga masih orang yang sama sih dengan pembuat MySQL dulu. Semenjak MySQL di akuisisi oleh Oracle. Monty Program memisahkan dirinya dengan MySQL dan Oracle dan membuat satu database baru yg merupakan cloning dari MySQL, yaitu MariaDB.</p>
+<p>Untuk cara penggunaaannya pun sangat sama dengan MySQL, bahkan drivernya pun juga sama. jadi tidak perlu repot-repot untuk mencari driver baru untuk bahasa PHP misalnya. Nah kali ini kita akan membahas cara install MariaDB di Ubuntu 14.04 x64.</p>
+<p>Langkah pertama kita tambahkan dulu repo ke dalam repository Ubuntu 14.04.</p>
+
+{% highlight bash %}
+sudo apt-get install software-properties-common
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://mariadb.biz.net.id//repo/10.1/ubuntu trusty main'
+{% endhighlight %}
+
+<p>Kemudian update repository dan install MariaDB :</p>
+
+{% highlight bash %}
+sudo apt-get update
+sudo apt-get install mariadb-server
+{% endhighlight %}
+
+<p>Biarkan proses instalasi berjalan sampai meminta password untuk user Root, masukan password yang di inginkan.</p>
+
+<center><script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async=""></script><!-- andzhar_468x60_header --> <ins class="adsbygoogle" style="display: inline-block; width: 468px; height: 60px;" data-ad-client="ca-pub-5003122787590055" data-ad-slot="9107156405"></ins><script>// <![CDATA[<br />
+(adsbygoogle = window.adsbygoogle || []).push({});<br />
+// ]]></script></center>
+
+<p>Kemudian&nbsp;lakukan testing dengan perintah :</p>
+<pre class="brush: bash; gutter: true">mysql -u root -p</pre><br />
+Jika muncul seperti gambar di bawah, berarti MariaDB sudah sukses terinstall, selanjutnya selamat membuat aplikasi dengan menggunakan MariaDB. :p</p>

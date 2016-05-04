@@ -1,0 +1,64 @@
+---
+layout: post
+title: Hack Lang Hello World
+date: 2014-12-16 13:56:43 +0700
+categories:
+- Hack Lang
+tags:
+- hhvm
+- hack
+- xhp
+image : /assets/img/post/hack-lang.png
+---
+<h2>HACKLANG</h2><br />
+
+<p>Hack adalah salah satu bahasa pemrograman yang dikembangkan&nbsp;oleh Facebook untuk virtual machine HipHop (HHVM). Menurut hacklang.org, Hack&nbsp;dapat berjalan&nbsp;mulus dengan PHP.&nbsp;Bahasa pemograman untuk HHVM&nbsp;yang berjalan mulus dengan bahasa pemograman PHP. Hack membuat siklus pengembangan PHP yang lebih cepat dengan menambahkan banyak fitur yang umum ditemukan dalam bahasa pemograman modern.</p>
+<p>Facebook juga merilis versi open source dari Hack untuk umum <span class="notranslate">sebagai bagian dari platform runtime HHVM, yang sekarang akan mendukung Hack dan PHP. untuk info lebih lanjutnya mengenai hack bisa kamu coba di <a title="HackLang" href="http://hacklang.org" target="_blank">http://hacklang.org</a>. Nah, k</span>ali ini kita akan mencoba membuat hello world dengan HackLang.</p>
+<h2>Install HHVM</h2><br />
+
+<p>Untuk membuat aplikasi dengan Hack tentunya harus sudah terinstall HHVM di mesin kita, hack sudah tersedia otomatis jika kita menginstall HHVM versi 3 keatas.</p>
+<h2>Hello World Hack</h2><br />
+<p>Jika&nbsp;HHVM sudah terinstall, selanjutnya kita akan mencoba membuat hello world dengan HackLang. Pertama coba buat satu folder baru misal dengan nama "hacklang"</p>
+
+{% highlight bash %}
+cd /var/www/html
+mkdir hacklang
+{% endhighlight %}
+<br />
+
+<p>Didalam folder hacklang kita akan membuat satu file dengan nama halo.php (hack dapat membaca file extensi php), perbedaan mendasar antara php dan hack adalah, kita dapat menyisipkan skrip PHP di dalam tag HTML, sedangkan di Hack kita tidak bisa melakukannya. misal kita isi file halo.php seperti ini</p>
+
+<p><center><script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async=""></script><!-- andzhar_468x60_header --> <ins class="adsbygoogle" style="display: inline-block; width: 468px; height: 60px;" data-ad-client="ca-pub-5003122787590055" data-ad-slot="9107156405"></ins><script>// <![CDATA[<br />
+(adsbygoogle = window.adsbygoogle || []).push({});<br />
+// ]]><br />
+// ]]></script></center></p>
+
+{% highlight php %}
+<html><br />
+ <head><br />
+  <title>HHVM pake PHP</title><br />
+ </head><br />
+ <body></p>
+<p> <?php echo '<br /><h1>Hello World</h1>' ;?><br />
+ </body><br />
+</html>
+{% endhighlight %}
+
+<br />
+<p>
+Ketika skrip tersebut di running akan menggunakan CLI atau via Web maka hanya kan tampil "Halo Dunia" dengan Tag H1, nah di Hacklang kita tidak dapat seperti itu, &nbsp;karna hacklang tidak dapat berjalan dengan html. misal tag "&lt;?php" kita rubah dengan menggunakan tag "&lt;?hh", ketika di running maka akan menampilkan blank&nbsp;page, atau error</p>
+
+{% highlight php %}
+Fatal error: syntax error, unexpected T_HH_ERROR, expecting $end in /var/www/html/hacklang/halo.php on line 1
+{% endhighlight %}
+
+<p>Agar berjalan di Hack kita harus memisahkan tag HTML dan &nbsp;skrip hack, cth :</p>
+{% highlight hack %}
+<?hh
+echo '<h1>Halo DUnia</h1>';
+{% endhighlight %}
+
+<p>Di Hack tidak ada "?>" atau close tag seperti PHP, maka dari itu Hack tidak dapat berjalan bersamaan dengan HTML. Sebelum running skrip tersebut, buat satu file kosong dengan nama ".hhconfig" didalam folder hacklang, kemudian jalankan :</p>
+<pre class="brush: bash; gutter: true">hh_client</pre><br />
+<p>Perintah tersebut akan mengecek apakah ada skrip yang error, jika error, perhatikan pesannya dan perbaiki, jika tidak ada error dapat&nbsp;kita eksekusi dengan perintah "hhvm halo.php" atau&nbsp;bisa&nbsp;dibuka menggunakan browser, maka akan keluar seperti berikut :</p>
+<p>Untuk menggabungkan antara Hacklang dan HTML kita dapat menggunakan XHP, untuk lebih jelas mengenai XHP dapat dibaca di&nbsp;<a title="Gituhub XHP" href="https://github.com/facebook/xhp" target="_blank">https://github.com/facebook/xhp</a></p>

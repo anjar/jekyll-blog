@@ -1,0 +1,71 @@
+---
+layout: post
+title: Laravel di Nginx dan HHVM
+date: 2014-12-15 10:20:39 +0700
+categories:
+- Laravel
+tags:
+- hhvm
+- laravel
+- nginx
+image : /assets/img/post/laravel.png
+---
+<p>Sebelumnya kita sudah membahas bagaimana cara install <a title="HHVM Nginx" href="http://bela.jar.web.id/2014/11/hhvm-nginx-di-ubuntu-server-14-04/" target="_blank">HHVM dengan Nginx</a>. Kali ini kita akan membahas instalasi salah satu framework php dengan menggunakan Nginx dan HHVM. Berdasarkan list dari&nbsp;http://hhvm.com/frameworks/ kita akan mencoba instalasi laravel di hhvm karena laravel&nbsp;masuk dalam kategori "27 Frameworks at 100%" dalam list tersebut.</p>
+<p>Pertama kita buat virtual host agar lebih memudahkan, silahkan baca <a title="Vhost Nginx" href="http://bela.jar.web.id/2013/03/konfigurasi-virtual-host-menggunakan-nginx-di-ubuntu/" target="_blank">Konfigurasi Vhost di Nginx</a>. Setelah virtual host telah di buat &nbsp;(misal : www.hhvm.loc). untuk konfigurasi virtualh host bisa sperti ini:</p>
+
+{% highlight bash %}
+server {
+    # Redirect yoursite.com to www.yoursite.com
+    server_name         hhvm.loc;
+    rewrite ^(.*)       http://www.hhvm.loc$1 permanent;
+}
+server {
+    server_name         www.hhvm.loc;
+    listen 80;
+    # Tell nginx to handle requests for the www.yoursite.com domain
+    index               index.php index.html index.htm;
+    root                /home/vagrant/laravel/public;
+    access_log          /home/vagrant/logs/laravel-access.log;
+    error_log           /home/vagrant/logs/laravel-error.log;
+    include /etc/nginx/hhvm.conf;
+    # Set a variable to work around the lack of nested conditionals
+    set $cache_uri $request_uri;
+    location / {
+             try_files $uri $uri/ /index.php$is_args$args;
+    }
+    # POST requests and urls with a query string should always go to PHP
+    if ($request_method = POST) {
+        set $cache_uri &#039;no cache&#039;;
+    }
+    if ($query_string != "") {
+        set $cache_uri &#039;no cache&#039;;
+    }
+    # Cache static files for as long as possible
+    location ~* \.(xml|ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
+        try_files       $uri =404;
+        expires         max;
+        access_log      off;
+    }
+    # Deny access to hidden files
+    location ~* /\.ht {
+        deny            all;
+        access_log      off;
+        log_not_found   off;
+    }
+}
+{% endhighlight %}
+
+<center><script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async=""></script><!-- andzhar_468x60_header --> <ins class="adsbygoogle" style="display: inline-block; width: 468px; height: 60px;" data-ad-client="ca-pub-5003122787590055" data-ad-slot="9107156405"></ins><script>// <![CDATA[<br />
+(adsbygoogle = window.adsbygoogle || []).push({});<br />
+// ]]><br />
+// ]]></script></center></p>
+
+<h2>Install Composer</h2><br />
+<p>Laravel akan sangat banyak menggunakan composer, jadi sebaiknya install composer terlebih dahulu. baca "<a title="Install Composer" href="http://bela.jar.web.id/2014/12/instalasi-composer-di-hhvm/" target="_blank">install composer</a>". Setalah composer terinstall kita mulai install laravel dengan menggunakan composer</p>
+
+{% highlight bash %}
+cd /home/vagrant 
+composer create-project laravel/laravel laravel
+{% endhighlight %}
+
+<p>Tunggu proses&nbsp;composer sampai selesai kemudian buka browser dan ketikaan alamat http://www.hhvm.loc</p>

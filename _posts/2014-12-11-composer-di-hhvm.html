@@ -1,0 +1,68 @@
+---
+layout: post
+title: Composer di HHVM
+date: 2014-12-11 15:26:15 +0700
+categories:
+- HHVM
+tags:
+- composer
+---
+<p>Sebelumnya kita sudah membahas bagaimana cara install <a title="HHVM Nginx" href="http://bela.jar.web.id/2014/11/hhvm-nginx-di-ubuntu-server-14-04/" target="_blank">HHVM dengan Nginx</a>. Kali ini kita akan membahas instalasi Composer di HHVM.&nbsp;Install&nbsp;Composer di HHVM ini sedikit berbeda dengan kita install menggunakan PHP. jika menggunakan instalasi seperti :</p>
+
+{% highlight bash %}
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+{% endhighlight %}
+
+<p>Maka akan mendapatkan error seperti berikut :</p>
+{% highlight bash %}
+All settings correct for using Composer
+Downloading...
+SlowTimer [5544ms] at curl: https://getcomposer.org/composer.phar
+Download failed: Failed to open https://getcomposer.org/composer.phar (Resolving timed out after 5545 milliseconds)
+Downloading...
+SlowTimer [5525ms] at curl: https://getcomposer.org/composer.phar
+Download failed: Failed to open https://getcomposer.org/composer.phar (Resolving timed out after 5526 milliseconds)
+Downloading...
+SlowTimer [5537ms] at curl: https://getcomposer.org/composer.phar
+Download failed: Failed to open https://getcomposer.org/composer.phar (Resolving timed out after 5537 milliseconds)
+The download failed repeatedly, aborting.
+{% endhighlight %}
+
+<center><script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async=""></script><!-- andzhar_468x60_header --> <ins class="adsbygoogle" style="display: inline-block; width: 468px; height: 60px;" data-ad-client="ca-pub-5003122787590055" data-ad-slot="9107156405"></ins><script>// <![CDATA[<br />
+(adsbygoogle = window.adsbygoogle || []).push({});<br />
+// ]]></script></center>
+
+<p>Untuk download installer composer kita bisa menggunakan wget :</p>
+
+{% highlight bash %}
+sudo wget https://getcomposer.org/installer
+{% endhighlight %}
+
+Setelah selesai di download, kita bisa melakukan instalasi dengan</p>
+{% highlight bash %}
+hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQueryThreshold=30000 installer
+sudo mv composer.phar /usr/local/bin/composer
+sudo rm installer
+{% endhighlight %}
+
+<p>Kemudian coba ketikan perintah "composer". kemudian kita akan melakukan sedikit tricky unutk mengguankan alias :</p>
+{% highlight bash %}
+alias composer="hhvm -v ResourceLimit.SocketDefaultTimeout=60 -v Http.SlowQueryThreshold=60000 -v Eval.Jit=false /usr/local/bin/composer"
+{% endhighlight %}
+
+<p>Untuk menjalankannya secara permanent, tambahkan di file ~/.bashrc &nbsp;dan lakukan update "source ~/.bashrc". Silahkan coba gunakan laravel, &nbsp;jika terdapat error seperti berikut saat menggunakan composer misal :</p>
+
+<pre class="brush: bash; gutter: true">composer create-project laravel/laravel laravel</pre><br />
+Jika keluar error seperti dibawah maka sebaiknya upgrade hhvm anda ke versi 3.4.0 keatas&nbsp;:</p>
+{% highlight bash %}
+SlowTimer [30001ms] at curl: https://packagist.org/p/provider-archived$e610d0d7d635302e2456ccb79e1b9e2eec2b54e3228cada28a93016b15b80e2f.json
+SlowTimer [30001ms] at curl: https://packagist.org/p/provider-archived$e610d0d7d635302e2456ccb79e1b9e2eec2b54e3228cada28a93016b15b80e2f.json
+SlowTimer [30001ms] at curl: https://packagist.org/p/provider-archived$e610d0d7d635302e2456ccb79e1b9e2eec2b54e3228cada28a93016b15b80e2f.json
+  [Composer\Downloader\TransportException]
+  The "https://packagist.org/p/provider-archived$e610d0d7d635302e2456ccb79e1b9e2eec2b54e3228cada28a93016b15b80e2f.json" file could not be downloaded: Failed to open https://packa
+  gist.org/p/provider-archived$e610d0d7d635302e2456ccb79e1b9e2eec2b54e3228cada28a93016b15b80e2f.json (Operation timed out after 29863 milliseconds with 933645 out of 998855 bytes
+   received)                                                                                                                       
+create-project [-s|--stability="..."] [--prefer-source] [--prefer-dist] [--repository-url="..."] [--dev] [--no-dev] [--no-plugins] [--no-custom-installers] [--no-scripts] [--no-progress] [--keep-vcs] [--no-install] [package] [directory] [version]
+
+{% endhighlight %}

@@ -1,0 +1,41 @@
+---
+layout: post
+title: GoLang dan Beego Framework
+date: '2015-07-08 11:40:21 +0700'
+categories: Go
+tags:
+- Beego
+- Golang
+image : /assets/img/post/EtEzjQ4w8hh7KYMAB16m.png
+
+---
+<p>Berhubung lagi ngetrend kata-kata "GO", jadi ya sekalian aja nyobain bahasa pemrograman milik google yang satu ini, yaitu "GOLANG".GOLANG adalah bahasa pemrograman yang dikembangkan oleh Robert Griesemer, Rob Pike, dan Ken Thompson. Bahasa pemrograman ini diumumkan pada november 2009 lalu dan saat ini dipakai di beberapa produk Google.&nbsp;Tujuan bahasa pemrogramanGOLANG adalah:</p>
+<ul>
+<li>Aman (type-safe dan memory-safe),</li>
+<li>Baik dalam dukungan konkurensi dan komunikasi,</li>
+<li>Cepat dalam kompilasi,</li>
+<li>Efisien (mendekati kinerja bahasa pemrograman C dalam hal pembagian tugas CPU),</li>
+<li>Dirancang untuk perangkat keras modern (multicore, jaringan, dll),</li>
+<li>Perangkat lunak yang powerfull (seperti untuk sebuah web server),</li>
+<li>Menjadi sebuah bahasa pemrograman yang umum dipakai dalam pembuatan aplikasi.</li><br />
+</ul><br />
+
+Nah, karna lagi iseng, kita coba aja install golang, pertama download dulu Golang terbaru dari websitenya, <a href="https://golang.org/dl/" target="_blank">golang.org</a>. Pilih yang sesuai dengan OS masing-masing, kalo saya sih di&nbsp;linux 64. Kalau udah di download bisa langsung extract ke /usr/local dengan perintah sebagai berikut :</p>
+<pre class="brush: bash; gutter: true">sudo tar -C /usr/local -xzf go1.4.2.linux-amd64.tar.gz</pre><br />
+Pastikan di jalankan dengan menggunakan user Root atau Sudo, karna user biasa tidak akan bisa mengekstrak file tersebut ke /user/local, nah kalau sudah selesai, jangan lupa di export pathnya</p>
+<pre class="brush: bash; gutter: true">export PATH=$PATH:/usr/local/go/bin</pre><br />
+kalau sudah coba ketikkan perintah "go version" kalau sukses maka akan muncul versi dari golang.</p>
+<p><center><script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async=""></script><!-- andzhar_468x60_header --> <ins class="adsbygoogle" style="display: inline-block; width: 468px; height: 60px;" data-ad-client="ca-pub-5003122787590055" data-ad-slot="9107156405"></ins><script>// <![CDATA[<br />
+(adsbygoogle = window.adsbygoogle || []).push({});<br />
+// ]]></script></center>Nah berhubung saya terbiasa menggunakan PHP, maka saya coba cari-cari deh framework untuk Golang ini, dan ternyata&nbsp;sudah ada banyak framework yang dibuat untuk GoLang ini salah satunya yaitu Beego. Setelah baca sana-sini akhirnya pilihan jatuh ke Beego deh.</p>
+<p>Nah untuk install framework beego ini pastikan dulu GOPATH sudah tersetting dengan perintah</p>
+<pre class="brush: bash; gutter: true">export GOPATH=/home/andzhar/golang/</pre><br />
+Kalau sudah di set, pindah ke folder GOPATH, lalu jalankan perintah berikut untuk download Beego :</p>
+<pre class="brush: bash; gutter: true">go get github.com/astaxie/beego</pre><br />
+Biarkan proses berjalan, kalau sudah selesai jangan lupa install Beego Tools, tools ini sangat berguna untuk develop aplikasi Golang</p>
+<pre class="brush: bash; gutter: true">go get github.com/beego/bee</pre><br />
+kalau sudah selesai, cek folder di dalam GOPATH, pastikan ada folder "bin", "pkg" dan "src". Untuk membuat sebuah projek baru menggunakan Beego bisa menggunakan beego tools, pertama pindah dulu ke folder src, lalu ketikkan perintah berikut :</p>
+<pre class="brush: bash; gutter: true">bee new myApp</pre><br />
+Beego otomatis akan membuat file-file seperti config, controller, model dan lainnya. untuk menjalankan Beego, pindah terlebih dulu ke dalam folder myApp, kemudian ketik perintah berikut :</p>
+<pre class="brush: bash; gutter: true">bee run</pre><br />
+dan kita sudah siap untuk bereksperimen menggunakan Golang dan Framework Beego.</p>

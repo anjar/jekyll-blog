@@ -1,0 +1,24 @@
+---
+layout: post
+title: MongoDB Export dan Import
+date: 2015-02-23 14:23:39 +0700
+categories:
+- Database
+- MongoDB
+tags:
+- backup
+- export
+- import
+
+---
+<p><strong>MongoDB</strong> <strong>Export</strong> <strong>dan</strong> <strong>Import</strong>, &nbsp;sama seperti halnya ketika kita menggunakan&nbsp;database MySQL atau PostgreSQL. tentunya kita akan melakukan backup database secara rutin untuk&nbsp;persiapan jikalau database yang saat ini live rusak ataupun problem serius, di MongoDB pun&nbsp;perlu melakukan backup atau export database ke sebuah file.</p>
+<p>Untuk melakukan MongoDB Export dan Import , kita dapat menggunakan perintah mongoexport, misal kita akan melakukan export database "anjar", gunakan perintah seperti berikut :</p>
+<pre class="brush: bash; gutter: true">mongodump -d anjar -o /home/anjar/backupdb</pre><br />
+Perintah diatas akan&nbsp;menghasilkan file berupa nama dari collections atau tabel&nbsp;dari database yang dipilih berupa JSON dan file BSON.</p>
+<p><center><script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async=""></script><!-- andzhar_468x60_header --> <ins class="adsbygoogle" style="display: inline-block; width: 468px; height: 60px;" data-ad-client="ca-pub-5003122787590055" data-ad-slot="9107156405"></ins><script>// <![CDATA[<br />
+(adsbygoogle = window.adsbygoogle || []).push({}); // ]]><br />
+// ]]></script></center>Untuk melakukan backup database yant telah&nbsp;terotentifikasi seperti yang telah di jelaskan di artikel "<a title="Menambahkan User dan Memberikan Akses User di Mongodb" href="http://bela.jar.web.id/2014/09/02/182552/menambahkan-user-dan-memberikan-akses-user-di-mongodb/" target="_blank">Menambahkan User dan Memberikan Akses User di Mongodb</a>", dapat menambahkan option kedalam perintah mongodump, seperti contoh berikut&nbsp;:</p>
+<pre class="brush: bash; gutter: true">mongodump -u anjarF -p passwordMongo --authenticationDatabase admin -d anjar -o /home/anjar/backupdb</pre><br />
+Untuk melakukan import database mongodb dari file backup dapat menggunakan perintah "mongorestore", contoh untuk import&nbsp;database dari file backup :</p>
+<pre class="brush: bash; gutter: true"> mongorestore  --db anjar /home/anjar/backupdb</pre><br />
+Perintah diatas akan melakukan import dari file yang telah di backup sebelumnya yang berada di dalam folder /home/anjar/backupdb, perintah ini akan melakukan restore data tanpa menampilkan log error, jadi anda harus cek file log error mongodb untuk mencari tahu error yang terjadi.</p>

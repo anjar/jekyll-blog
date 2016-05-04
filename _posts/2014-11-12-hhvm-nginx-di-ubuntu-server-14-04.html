@@ -1,0 +1,81 @@
+---
+layout: post
+title: HHVM Nginx di Ubuntu server 14.04
+date: 2014-11-12 12:52:34 +0700
+categories:
+- NginX
+tags:
+- ubuntu
+- install
+- hhvm
+image : /assets/img/post/hhvm.png
+---
+<p>HHVM&nbsp;atau HipHop Virtual Machine adalah sebuah virtual machine yang open source yang dibuat untuk eksekusi program&nbsp;yang di tulis dengan menggunakan PHP atau Hack. HHVM buatan Facebook ini mengklaim lebih cepat daripada Zend-Apache yang biasa di gunakan untuk eksekusi program PHP.</p>
+
+<p>Nah, kali ini kita akan mencoba melakukan instalasi HHVM di Ubuntu server 14.04. Oh ya, pastikan Sistem Operasinya 64 bit yah, karna HHVM tidak dapat di jalankan di OS 32 bit.</p>
+
+<p>Langkah pertama, update repository terlebih dahulu dan install beberapa package yang dibutuhkan.</p>
+{% highlight bash %}
+sudo apt-get update
+sudo apt-get install -y unzip vim git-core curl wget build-essential python-software-properties
+{% endhighlight %}
+
+<h2>Install Nginx</h2><br />
+<p>Langkah berikutnya kita install Nginx terlebih dahulu sebelum kita install HHVM, kita jg menambahkan&nbsp;ppa:nginx/stable agar mendapatkan NgiNX yang stabil dan tentnunya update security.</p>
+{% highlight bash %}
+sudo add-apt-repository -y ppa:nginx/stable
+sudo apt-get update
+sudo apt-get install -y nginx
+{% endhighlight %}
+
+<h2>Install HHVM</h2><br />
+<p>Langkah selanjutnya adalah install HHVM, kita akan menggunakan HHVM prebuilt package untuk ubuntu 14.04.</p>
+{% highlight bash %}
+wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | sudo apt-key add -
+echo deb http://dl.hhvm.com/ubuntu trusty main | sudo tee /etc/apt/sources.list.d/hhvm.list
+sudo apt-get update
+sudo apt-get install hhvm
+{% endhighlight %}
+
+<p>tunggu prosesnya instalasinya selesai, jika sukses akan muncul seperti gambar di bawah ini:</p>
+<p>Karena kita akan menggunakan HHVM untuk running web maka eksekusi perintah berikut untuk menyalakan hhvm secara otomatis ketika booting.</p>
+<pre class="brush: bash; gutter: true">sudo update-rc.d hhvm defaults</pre><br />
+<p>
+Proses instalasi HHVM sudah selesai, dan kita tidak perlu untuk install PHP-FPM untuk berjalan dengan NginX. Untuk menjalankan file php dengan terminal&nbsp;cukup dengan perintah:</p>
+<pre class="brush: bash; gutter: true">hhvm nama_file.php</pre><br />
+
+<center><script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async=""></script><!-- andzhar_468x60_header --> <ins class="adsbygoogle" style="display: inline-block; width: 468px; height: 60px;" data-ad-client="ca-pub-5003122787590055" data-ad-slot="9107156405"></ins><script>// <![CDATA[<br />
+(adsbygoogle = window.adsbygoogle || []).push({});<br />
+// ]]></script></center><br />
+
+<p>Agar lebih memudahkan kita nantinya, misal untuk menggunakan Composer atau perintah-perintah PHP dengan menggunakan command-line, &nbsp;kita akan menggunakan hhvm untuk menggantikan php gunakan baris terakhir dari hasil instalasi hhvm :</p>
+{% highlight bash %}
+sudo /usr/bin/update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
+{% endhighlight %}
+
+Nah, kita sudah bisa menggunakan perintah php di terminal, untuk contoh coba ketikan perintah berikut :</p>
+<pre class="brush: bash; gutter: true">php -v</pre><br />
+seharusnya akan keluar seperti berikut :</p>
+
+{% highlight bash %}
+HipHop VM 3.3.1 (rel)
+Compiler: tags/HHVM-3.3.1-0-ge0c98e21167b425dddf1fc9efe78c9f7a36db268
+Repo schema: f53e1743f31a2dee70c46aa66fb1b321c3e97c10
+Extension API: 20140829
+{% endhighlight %}
+
+<p>Untuk testing PHP via browser lihat di folder /etc/nginx, di situ terdapat file hhvm.conf yang isinya sperti berikut :</p>
+{% highlight bash %}
+location ~ \.(hh|php)$ {
+    fastcgi_keep_conn on;
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include        fastcgi_params;
+}
+{% endhighlight %}
+
+<p>Buka file konfigurasi nginx (/etc/nginx/sites-available/default) dan tambahkan baris berikut :</p>
+<p class="p1">include /etc/nginx/hhvm.conf;</p><br />
+Kemudian restart nginx, setelah itu coba buat file misal info.php di /var/www/html dengan isi phpinfo, kemudian akses dari browser alamat tersebut.</p>
+<p>jika muncul sperti gambar diatas maka instalasi hhvm sudah berhasil, &nbsp;phpinfo() di hhvm hanya mengeluarkan text "HipHop" saja.</p>

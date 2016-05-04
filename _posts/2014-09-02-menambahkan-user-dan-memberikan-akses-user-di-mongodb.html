@@ -1,0 +1,65 @@
+---
+layout: post
+title: Menambahkan User dan Memberikan Akses User di Mongodb
+date: 2014-09-02 18:25:52 +0700
+categories:
+- Database
+tags:
+- create user
+- priviliges
+- mongodb
+image : /assets/img/post/mongodb.png
+---
+<p>Setelah seblumnya kita telah membahas bagimana <a title="Install Mongodb" href="http://bela.jar.web.id/2014/05/cara-install-mongodb-di-mac-os-x-ubuntu-dan-windows-7/" target="_blank">cara install mongodb</a>, kali ini kita akan mencoba bagaimana cara membuat user admin di MongoDB dan memberi akses user untuk suatu database yang akan digunakan untuk keperluan aplikasi kita, misal database yang akan digunakan adalah "anjar" dan user yang dapat mengakses database tersebut adalah "anjarDB".</p>
+<p>Pertama jalankan server mongodb dengan perintah</p>
+<pre class="brush: bash; gutter: true">mongod</pre><br />
+
+<p>Kemudian buka terminal atau console dan lakukan koneksi ke MongoDB server, &nbsp;jika belum pernah membuat user lakukan dengan perintah "mongo". Kemudian&nbsp;buat satu user untuk admin dengan perintah sebagai berikut</p>
+{% highlight bash %}
+use admin
+db.createUser(
+    user: "dbAdmin",
+    pwd: "admin123",
+    roles:
+    [
+      {
+        role: "userAdminAnyDatabase",
+        db: "admin"
+      }
+    ]
+  }
+)
+{% endhighlight %}
+
+<p>Langkah selanjutnya kita akan mencoba dengan mencoba login dengan user tersebut, silahkan disconnect dari server ubuntu, atau buka 1 terminal atau console lagi, kemudian coba&nbsp;login&nbsp;ke server MongoDB dengan perintah :</p>
+<pre class="brush: bash; gutter: true">mongo --port 27017 -u dbAdmin -p admin123 --authenticationDatabase admin</pre><br />
+<p>Setelah authentikasi sukses&nbsp;selanjutnya kita akan coba membuat satu user admin untuk satu database tertentu.&nbsp;gunakan perintah berikut :</p>
+{% highlight bash %}
+use anjar
+db.createUser(
+  {
+    user: "anjarDB",
+    pwd: "anjar123",
+    roles:
+    [
+      {
+        role: "userAdmin",
+        db: "anjar"
+      }
+    ]
+  }
+)
+{% endhighlight %}
+
+<p>Kemudian kita coba untuk memberikan akses user ke database "anjar"&nbsp;yang telah kita buat tadi dengan perintah berikut :</p>
+{% highlight bash %}
+use anjar
+db.runCommand( {
+	grantRolesToUser: "anjarDB",
+	roles: [
+		"readWrite"
+	],
+	writeConcern: { w: "majority" , wtimeout: 2000 }
+} )
+{% endhighlight %}
+<p>Kemudian coba lakukan koneksi di coding anda dengan user tadi yang telah kita buat.</p>
