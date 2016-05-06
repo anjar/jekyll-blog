@@ -1,0 +1,111 @@
+---
+layout: post
+title: Implementasi Apache Solr Geospatial Search
+date: 2013-08-01 13:44:52 +0700
+categories:
+- Apache
+tags:
+- solr
+- search
+- spatial
+- geospatial
+image : /assets/img/post/solr.png
+---
+<p>Setelah sebelumnya saya sudah membahas tentang <a title="Apache Solr Multicore di Linux dan windows" href="http://bela.jar.web.id/2013/04/apache-solr-muticore-windows-linux/" target="_blank">cara installasi multicore apache solr</a>, kali ini kita akan mencoba untuk menggunakan apache solr geospatial search yang nantinya akan kita gunakan pada aplikasi web dengan menggunakan google map misalnya.</p>
+<p>Langkah Pertama dalam implementasi &nbsp;apache solr geospatial search ,&nbsp;buat dulu tabel yang akan kita gunakan, misal kita menggunakan tabel resto pada database latihan</p>
+
+{% highlight sql lineons %}
+CREATE TABLE `resto` (
+	`id` INT(10) NOT NULL,
+	`name` VARCHAR(50) NULL,
+	`lat` FLOAT NULL,
+	`lng` FLOAT NULL,
+	`created` DATETIME NULL DEFAULT NULL,
+	`updated` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE="latin1_swedish_ci"
+ENGINE=InnoDB;
+insert into resto value
+(1, "Resto Padang Asli", "-6.281856","106.826055", now(), now()),
+(2, "Resto Masakan Sunda Asli", "-6.286484","106.830475", now(), now()),
+(3, "Resto Masakan Jawa Timur Asli", "-6.981892","107.616148", now(), now()),
+(4, "Restoran Makanan Arab Asli", "-6.983042","107.591558", now(), now()),
+(5, "Rumah Makan Betawi Asli", "-6.973074","107.590699", now(), now()),
+(6, "Rumah Makan Betawi Asli", "-7.007364","106.53966", now(), now()),
+(7, "Warung Tegal Asli", "-6.305722","106.557169", now(), now()),
+(8, "Warung Makanan  Asli", "-6.989516","107.079835", now(), now()),
+(9, "Tempat Makan Masakan Kalimantan", "-6.313507","106.888475", now(), now()),
+(10, "Restorant Masakan Italia", "-6.322465","106.883519", now(), now());
+{% endhighlight %}
+
+<p>Kemudian ubah file schema.xml untuk &nbsp;menjalankan solr geospatial search, untuk cara bagaimana multicore di apache solr 4 silahkan baca artikel <a title="Apache Solr Multicore di Linux dan windows" href="http://bela.jar.web.id/2013/04/apache-solr-muticore-windows-linux/" target="_blank">ini</a> tambahkan field baru di schema.xml seperti contoh di bawah</p>
+
+{% highlight xml lineons %}
+<?xml version="1.0" ?>
+<schema name="example core one" version="1.1">
+  <types>
+   <fieldtype name="string"  class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+   <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+   <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate"/>
+   <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+  </types>
+ <fields>
+  
+ <field name="id"  type="string"    indexed="true"  stored="true"  multiValued="false" required="true"/>
+	<field name="name"  type="string"    indexed="true"  stored="true"  multiValued="false"/>
+	<field name="lat" type="tdouble" indexed="true" stored="true" />
+	<field name="lng" type="tdouble" indexed="true" stored="true" />
+	<field name="created" type="string" indexed="true" stored="true" />
+	<field name="updated" type="string" indexed="true" stored="true" />
+	<field name="latlng" type="location" indexed="true" stored="true" />
+  <field name="_version_" type="long"      indexed="true"  stored="true"/>
+  <dynamicField name="*_coordinate"  type="tdouble" indexed="true"  stored="false"/>
+ </fields>
+
+ <uniqueKey>id</uniqueKey>
+ <defaultSearchField>name</defaultSearchField>
+ <solrQueryParser defaultOperator="OR"/>
+</schema>
+{% endhighlight %}
+
+<p>Kemudian buat data-config.xml untuk solr geospatial search yang isinya kira-kira seperti berikut (untuk cara bagaimana multicore di apache solr 4 silahkan baca artikel&nbsp;<a title="Apache Solr Multicore di Linux dan windows" href="http://bela.jar.web.id/2013/04/apache-solr-muticore-windows-linux/" target="_blank">ini</a>&nbsp; )</p>
+
+{% highlight xml lineons %}
+<dataConfig>
+	<dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost/latihan" user="root"
+   password="root"/>
+	<document name="content">
+        <entity name="resto"
+		query="SELECT id, name, lat, lng,
+					case
+						when lat != ""
+						then
+							concat(trim(lat), ",", trim(lng))
+						else ""
+					end as latlng , created, updated FROM resto"
+			deltaImportQuery="SELECT id, name, lat, lng,
+						case
+							when lat != ""
+							then
+								concat(trim(lat), ",", trim(lng))
+							else ""
+						end as latlng, created, updated FROM resto WHERE 1=1 AND id="${dataimporter.delta.id}""
+		deltaQuery="
+				SELECT * FROM resto WHERE updated>unix_timestamp("${dataimporter.last_index_time}")">
+		<field column="id" name="id" />
+		<field column="name" name="name" />
+		<field column="lat" name="lat" />
+		<field column="lng" name="lng" />
+		<field column="latlng" name="latlng" />
+		<field column="crated" name="crated" />
+		<field column="updated" name="updated" />
+	  </entity>
+    </document>
+</dataConfig>
+{% endhighlight %}
+
+<p>Kemudian Jalankan SOLR atau restart solr jika SOLR sudah running, kemudian buka browser dan ketikkan alamat<br />
+http://localhost:8983/solr/resto/select?q=*:*&amp;fq={!geofilt pt=-6.28186,106.826 sfield=latlng d=1}&amp;wt=xml&amp;indent=true</p>
+<p>jika benar maka akan muncul seperti gambar di bawah</p>
+<p>File source solr geospatial search dapat di download di&nbsp;<a title="Solr Geospatial Search" href="http://bela.jar.web.id/wp-content/uploads/2013/08/resto.zip" target="_blank">sini</a></p>

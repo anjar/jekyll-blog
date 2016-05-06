@@ -1,0 +1,116 @@
+---
+layout: post
+title: Konfigurasi Virtual Host menggunakan NginX di Ubuntu
+date: 2013-03-02 11:42:41 +0700
+categories:
+- Server
+- NginX
+tags:
+- virtual host
+---
+<p>Melanjutkan dari posting saya yang sebelumnya "<a title="Install NGINX" href="http://bela.jar.web.id/2013/02/install-nginx-di-ubuntu-linux-12-04/" target="_blank">Install NginX di Ubuntu Linux 12.04</a>", kali ini saya akan membahasa bagaimana konfigurasi virtual host di server NginX pada Ubuntu server 12.04, untuk cara melakukan instalasi NginX di ubuntu server dapat melihat posting saya <a title="Install NginX Ubuntu" href="http://bela.jar.web.id/2013/02/install-nginx-di-ubuntu-linux-12-04/" target="_blank">sebelumnya</a>.</p>
+<p>Pastikan NginX &amp; PHP-FPM sudah berjalan di server, untuk konfigurasi virtual host di NginX hampir sama dengan konfigurasi di server Apache, yang berbeda adalah karena di NginX tidak ada htaccess, jadi untu konfigurasi htaccess dikonfugirasi di virtual host masing-masing atau dapat juga di file nginx.conf.</p>
+<p>Kali ini kita akan mencoba membuat 2 virutal host yaitu untuk domain-gue.com dan company-gue.com. Pertama copy file default nginx /etc/nignx/sites-available/default:</p>
+<pre class="brush: bash; gutter: true">sudo cp /etc/nignx/sites-available/default /etc/nignx/sites-available/myblog</pre><br />
+Kemudian rubah isi file myblog menjadi kira-kira seperti berikut:</p>
+<pre class="brush: bash; gutter: true">sudo nano /etc/nignx/sites-available/myblog</pre></p>
+{% highlight bash lineons %}
+server {
+    # Redirect yoursite.com to www.yoursite.com
+    server_name         domain-gue.com;
+    rewrite ^(.*)       http://www.domain-gue.com$1 permanent;
+}
+server {
+	listen   80; ## listen for ipv4; this line is default and implied
+	# listen   [::]:80 default ipv6only=on; ## listen for ipv6
+	server_name www.domain-gue.com;
+	root /home/www/andzhar/home;
+	index index.html index.htm index.php;
+	location / {
+		try_files $uri $uri/ /index.html;
+	}
+	# redirect server error pages to the static page /50x.html
+	#
+	error_page 500 502 503 504 /50x.html;
+	location = /50x.html {
+		root /usr/share/nginx/www;
+	}
+	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+	#
+	location ~ \.php$ {
+	#	# With php5-cgi alone:
+		fastcgi_pass 127.0.0.1:9000;
+	#	# With php5-fpm:
+		fastcgi_index index.php;
+		include fastcgi_params;
+	}
+	# deny access to .htaccess files, if Apache's document root
+	#
+	location ~ /\.ht {
+		deny all;
+	}
+}
+{% endhighlight %}
+
+<p>kemudian copy kembali file myblog</p>
+
+<center><script type="text/javascript">// <![CDATA[
+google_ad_client = "ca-pub-5003122787590055";
+google_ad_slot = "9421351643";
+google_ad_width = 468;
+google_ad_height = 60;
+// ]]></script>
+<script src="http://pagead2.googlesyndication.com/pagead/show_ads.js" type="text/javascript">// <![CDATA[
+// ]]></script></center>
+
+<pre class="brush: bash; gutter: true">sudo cp /etc/nignx/sites-available/myblog /etc/nignx/sites-available/mycompany<br />
+sudo nano /etc/nignx/sites-available/mycompany</pre></p>
+{% highlight bash lineons %}
+	server {
+    # Redirect yoursite.com to www.yoursite.com
+    server_name         company-gue.com;
+    rewrite ^(.*)       http://www.company-gue.com$1 permanent;
+}
+server {
+	listen   80; ## listen for ipv4; this line is default and implied
+	# listen   [::]:80 default ipv6only=on; ## listen for ipv6
+	server_name www.company-gue.com;
+	root /home/www/andzhar/company;
+	index index.html index.htm index.php;
+	location / {
+		try_files $uri $uri/ /index.html;
+	}
+	# redirect server error pages to the static page /50x.html
+	#
+	error_page 500 502 503 504 /50x.html;
+	location = /50x.html {
+		root /usr/share/nginx/www;
+	}
+	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+	
+	location ~ \.php$ {
+	#	# With php5-cgi alone:
+		fastcgi_pass 127.0.0.1:9000;
+	#	# With php5-fpm:
+		fastcgi_index index.php;
+		include fastcgi_params;
+	}
+	# deny access to .htaccess files, if Apache's document root
+	location ~ /\.ht {
+		deny all;
+	}
+}
+{% endhighlight %}
+
+<p>Kemudian buat symlink untuk kedua file tersebut di direktori sites-enabled</p>
+{% highlight bash lineons %}
+sudo ln -s /etc/nignx/sites-available/myblog /etc/nignx/sites-enabled/myblog<br />
+sudo ln -s /etc/nignx/sites-available/mycompany /etc/nignx/sites-enabled/mycompany
+{% endhighlight %}
+
+<p>kemudian restart nginx server</p>
+
+<pre class="brush: bash; gutter: true">sudo service nginx restart</pre><br />
+perhatikan pesan yang muncul, jika konfigurasi sudah benar dan sesuai maka tidak ada warning atau error.</p>
+
+<p>semoga berguna :p</p>

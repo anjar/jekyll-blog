@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Upgrade All Python PIP Packages"
-date:   2014-05-02 16:45:11 +0700
+date:   2014-09-12 16:45:11 +0700
 categories: python
 tags : [Django, PIP, Upgrade]
 
