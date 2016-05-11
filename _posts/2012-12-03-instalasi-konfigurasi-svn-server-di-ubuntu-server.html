@@ -1,0 +1,147 @@
+---
+layout: post
+title: Instalasi & Konfigurasi SVN Server di Ubuntu Server
+date: 2012-12-03 11:10:29 +0700
+categories:
+- Linux
+tags:
+- ubuntu
+- svn
+
+---
+<p>Subversion atau SVN server sering digunakan dalam suatu project, nah kebetulan juga baru aja selesai konfigurasi svn server di ubuntu server, sekalian aja deh di catet langkah-langkahnya di blog saya :p. &nbsp;ada beberapa persiapan sebelum kita mulai installasi svn server berikut persiapan yang dibutuhkan:</p>
+<ul>
+<li>Linux Ubuntu (ubuntu server 12.04).</li>
+<li>Apache Web Server.</li>
+<li>Koneksi Internet.</li>
+<li>Modul apache DAV_SVN (digunakan untuk akses svn via http).</li>
+<li>modul apache ssl (digunakan untuk akses svn via https).</li>
+<li>ssh (digunakan untuk akses svn via svn+ssh).</li><br />
+</ul><br />
+Sebelum melakukan instalasi svn, pastikan repository ubuntu telah uptodate.</p>
+<pre class="brush: bash; gutter: true">sudo apt-get update</pre><br />
+Kemudian install (subversion) SVN:</p>
+<pre class="brush: bash; gutter: true">sudo apt-get install subversion</pre><br />
+Ada beberapa cara dalam konfigurasi dan penggunaan svn server diantaranya akses svn (subversion) melalui:</p>
+<ol>
+<li><strong>File</strong>. Metode ini adalah dengan membuat repositori pada direktori dan akses langsung ke direktori yang menjadi repositori tersebut, <strong><em>"file:///home/svn/repo1</em></strong>".</li>
+<li><strong>HTTP</strong>. Metode dengan membuat repositori pada direktori dan akses ke repositori tersebut melalui web (WebDAV protocol) dengan modul apache2, "<em><strong>http://127.0.0.1/svn/repo2/</strong></em>".</li>
+<li><strong>HTTPS</strong>. Metode ini sama dengan metode http, hanya saja ditambahkan dengan enkripsi ssl, "<em><strong>https://127.0.0.1/svn/repo3/</strong></em>".</li>
+<li><strong>SVN.&nbsp;</strong>Metode ini menggunakan custom protokol untuk mengakses ke <em>svnserve</em> server, "<strong><em>svn://127.0.0.1/svn/repo4</em></strong>".</li>
+<li><strong>SVN+SSH</strong>. metode ini sama dengan metode svn, hanya saja ditambahkan dengan ssh tunel, "<strong><em>svn+ssh://127.0.0.1/svn/repo5</em></strong>".</li><br />
+</ol><br />
+Berikut adalah beberapa cara untuk melakukan konfigurasi dalam membuat repositori svn:</p>
+
+<center>
+<script type="text/javascript">// <![CDATA[
+google_ad_client = "ca-pub-5003122787590055";
+/* 468_60_andzhar_post */
+google_ad_slot = "9421351643";
+google_ad_width = 468;
+google_ad_height = 60;
+// ]]></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">// <![CDATA[
+// ]]></script></center>
+
+<p><strong>1. FILE</strong></p>
+<p><strong></strong>&nbsp; &nbsp;- &nbsp;Buat direktori untuk repositori svn</p>
+
+{% highlight bash lineons %}
+sudo mkdir /home/svn
+cd /home/svn
+sudo mkdir repo1
+{% endhighlight %}
+
+<p>untuk membuat repositori dapat menggunakan perintah <em>svnadmin</em></p>
+<pre class="brush: bash; gutter: true">sudo svnadmin create /home/svn/repo1</pre><br />
+<p>Jangan lupa untuk mengubah permission (hak akses) dari direktori yang di jadikan repositori tersebut</p>
+{% highlight bash lineons %}
+cd /home/svn<br />
+sudo chmod -R g+rws repo1
+{% endhighlight %}
+
+<p>Untuk mengakses repositori tersebut dapat dengan menggunakan perintah:</p>
+{% highlight bash lineons %}
+svn co file:///home/svn/repo1
+{% endhighlight %}
+
+<strong>2. HTTP</strong></p>
+<p>untuk membuat repositori lakukan langkah yang sama dengan cara diatas.</p>
+{% highlight bash lineons %}
+cd /home/svn
+sudo mkdir repo2
+sudo chown -R www-data:subversion repo2
+sudo chmod -R g+rws repo2</pre>
+{% endhighlight %}
+
+<p>Sebelum melakukan konfigurasi, pastikan modul dav (libapache2-svn) telah terinstall. kemudian buka file&nbsp;<em>/etc/apache2/mods-available/dav_svn.conf&nbsp;</em>dan tambahakn baris berikut:</p>
+
+{% highlight bash lineons %}
+<Location /svn/repo2><br />
+  DAV svn<br />
+  SVNPath /home/svn/repo2<br />
+  AuthType Basic<br />
+  AuthName "Repositori ke-2 viva web"<br />
+  AuthUserFile /home/svn/repo2/passwd<br />
+  Require valid-user<br />
+ </Location>
+{% endhighlight %}
+
+<p>note: &nbsp;<strong>location</strong>adalah lokasi url untuk mengakses via http. <strong>AuthUserFile </strong>adalah file list untuk user svn.</p>
+<p>Kemudian restart apache:</p>
+<pre class="brush: bash; gutter: true">sudo /etc/init.d/apache2 restart</pre><br />
+Langkah selanjutnya adalah dengan membuat file "<em>passwd</em>" di <em>/home/svn/repo2/passwd&nbsp;</em>yang akan digunakan sebagai informasi detail dari user svn dalam mengakses repositori. Untuk menambahkan user dapat menggunakan perintah:</p>
+<pre class="brush: bash; gutter: true">sudo htpasswd -c /home/svn/repo2/passwd andzhar</pre><br />
+akan muncul line baru dan meminta kita untuk mengisi password untuk user yang telah kita buat tersebut, masukkan password yang di inginkan dan file passwd otomatis terbuat path yang sudah kita tentukan tadi. jika ingin menambah user maka hilangkang "-<em>c</em>" pada perintah di atas, "<em>-c</em>" berfungsi untuk membuat file (create):</p>
+<pre>sudo htpasswd /home/svn/repo2/passwd febri</pre><br />
+untuk mengakses repositori tersebut gunakan perintah:</p>
+<pre class="brush: bash; gutter: true">svn co http://localhost/svn/repo2ct --username andzhar</pre><br />
+<strong>3. HTTPS</strong></p>
+<p>Untuk konfigurasi metode ini sama dengan konfigurasi via http diatas, pastikan saja "<em>https</em>" bisa di akses dari web server anda.</p>
+<p><strong>4. SVN</strong></p>
+<p>Pertam buat kembali repositori baru</p>
+{% highlight bash lineons %}
+cd /home/svn
+sudo mkdir repo4
+sudo chmod -R g+rws repo4
+{% endhighlight %}
+
+<p>Kemudian edit file "<em>/home/svn/repo4/conf/svnserve.conf</em>" untuk konfigurasi akses ke repositori. Uncomment bagian berikut:</p>
+{% highlight bash lineons %}
+# [general]
+# password-db = passwd
+{% endhighlight %}
+
+<p>Setelah kita merubah bagian tersebut, kita dapat memanage user-user pada file "<em>passwd"</em> pada direktori yang sama, buka file "<em>passwd</em>" tersebut dan tambahkan user-user yang dapat mengakses repositori tersebut dengan format "<em>username=password</em>".</p>
+<pre class="brush: bash; gutter: true">andzhar=12345</pre><br />
+Kemudan jalankan "<em>svnserve" </em>agar repositori yang telah dibuat dapat diakses melalui metode <em>svn:///&nbsp;</em>dengan perintah:</p>
+<pre class="brush: bash; gutter: true">svnserve -d -r /home/svn/repo4</pre><br />
+Untuk &nbsp;perintah checkout repositori gunakan perintah:</p>
+<pre class="brush: bash; gutter: true">svn co svn://127.0.0.1/repo4--username andzhar</pre><br />
+note: default port yang digunakan oleh svn adalah&nbsp;3690</p>
+<p><strong>5. SVN+SSH</strong></p>
+<p>Metode ini sebenarnya kurang diperlukan dalam menjalankan/mengakses repositori SVN. Konfigurasi ini sampir sama dengan konfigurasi dengan metode <em><strong>SVN,&nbsp;</strong></em>hanya saja pastikan ubuntu anda dapat diakses dengan menggunakan "<em>ssh".&nbsp;</em> kemudian checkout repositori dengan perintah:</p>
+<pre>svn co svn+ssh://127.0.0.1/repo4 --username andzhar</pre><br />
+&nbsp;</p>
+<p>Untuk membuat <em>svnserve&nbsp;</em>run pada saat pc/komputer anda restart, adna perlu membuat 1 file baru pada init.d:</p>
+<pre class="brush: bash; gutter: true">sudo nano /etc/init.d/svnserve</pre><br />
+Kemudian tambahakn perintah svnserve tadi kedalam file tersebut,:</p>
+
+{% highlight bash lineons %}
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          svnserve
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start subversion server
+### END INIT INFO
+svnserve -d -r /home/svn/repo4
+{% endhighlight %}
+
+<p>Pastikan skirp tersebut dapat di eksekusi:</p>
+<pre class="brush: bash; gutter: true">sudo chmod +x /etc/init.d/svnserve</pre><br />
+kemudian gunakan update-rc.d untuk menambahakn skirp tersebut ke init.</p>
+<pre class="brush: bash; gutter: true">update-rc.d svnserve defaults</pre><br />
+&nbsp;</p>

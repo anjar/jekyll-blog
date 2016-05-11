@@ -1,0 +1,75 @@
+---
+layout: post
+title: Membuat Custom Error View di CakePHP 2.x
+date: 2012-07-12 17:24:57 +0700
+categories:
+- PHP
+tags:
+- cakephp
+- exception
+comments: []
+---
+<p>Fitur&nbsp;cakeError() di cakePHP 1.x telah di hilangkan dan untuk versi CakePHP 2.x. Sebagai gantinya kita dapat menggunakan Class Exceptions di CakePHP 2.x. Contoh Exception dapat dilihat di controller, jika menggunakan Cake Bake di controller yang telah di generate, misal di fungsi edit akan ada potongan code seperti "<em>throw new NotFoundException(</em>", inilah contoh dari penggunaan Exception CakePHP,.</p>
+<p>Tapi view untuk Exception bawaan cakephp menggunakan layout default cakephp, bagaimana bila kita ingin mengubah view dari exception tersebut, berikut cara untuk custom error CakePHP 2.x.</p>
+<p>Pertama kita tambahkan baris berikut di core.php</p>
+
+{% highlight php lineons %}
+Configure::write('Exception', array(
+        'handler' => 'ErrorHandler::handleException',
+        'renderer' => 'AppExceptionRenderer',
+        'log' => true
+));
+{% endhighlight %}
+
+<p>Script diatas adalah untuk konfigurasi Excetion, untuk penjelasan konfigurasi tersebut bisa dibaca di book cakephp. Selanjutnya kita buat sebuah controller baru misal:&nbsp;ErrorsController.php.</p>
+{% highlight php lineons %}
+<?php
+class ErrorsController extends AppController {
+    public $name = "Errors";
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('error404');
+    }
+    public function error404() {
+        //$this->layout = 'default';
+    }
+}
+?>
+{% endhighlight %}
+
+<center><script type="text/javascript">
+google_ad_client = "ca-pub-5003122787590055";
+google_ad_slot = "9421351643";
+google_ad_width = 468;
+google_ad_height = 60;
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></center>
+
+<p>Selanjutnya buat file&nbsp;AppExceptionRenderer.php di dalam lib, (/app/Lib/Error/AppExceptionRenderer.php)</p>
+{% highlight php lineons %}
+<?php
+App::uses('ExceptionRenderer', 'Error');
+class AppExceptionRenderer extends ExceptionRenderer {
+    public function missingController($error) {
+        $this->controller->render('/Errors/error404', 'error');
+        $this->controller->response->send();
+    }
+    public function missingAction($error) {
+        $this->missingController($error);
+    }
+    public function notFound($error) {
+        $this->missingController($error);
+    }
+}
+?>
+{% endhighlight %}
+
+<p>Kemudian buat file layout baru dengan nama "error" , pada script diatas menggunakan layout error "<em>$this->controller->render('/Errors/error404', 'error');</em>"</p>
+<p>Jika ada exception baru tinggal ditambahakan didalam&nbsp;AppExceptionRenderer.php, dan bila ingin meng-custom masing-masing view tinggal gunakan script seperti missingController dengen render &amp; layout yang berbeda.</p>
+<p>&nbsp;</p>
+<p>sumber:</p>
+<ol>
+<li><a href="http://stackoverflow.com/questions/9620363/cakephp-2-0-how-to-make-custom-error-pages">http://stackoverflow.com/questions/9620363/cakephp-2-0-how-to-make-custom-error-pages</a></li>
+<li><a href="http://stackoverflow.com/questions/10863997/custom-views-for-errors-in-cakephp-2-1">http://stackoverflow.com/questions/10863997/custom-views-for-errors-in-cakephp-2-1</a></li><br />
+</ol></p>
