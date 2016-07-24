@@ -7,16 +7,16 @@
 
 # Site settings
 title: Anjar Febrianto
-email: anxfeb@gmail.com
+email: befrajna@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   Anjar Febrianto, Husband, Father and Web developer based in Jakarta, Indonesia. Welcome to my site, you can read my journal here.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://anjarweb.xyz" # the base hostname & protocol for your site
-twitter_username: anxfeb
-github_username:  anxfeb
-fb_username : anxfeb
-instagram_username : anxfeb
-linkedin_url : https://id.linkedin.com/in/anxfeb
+twitter_username: befrajna
+github_username:  befrajna
+fb_username : befrajna
+instagram_username : befrajna
+linkedin_url : https://id.linkedin.com/in/befrajna
 gplus_url : https://plus.google.com/u/0/+AnjarFebrianto
 youtube_channel : https://www.youtube.com/channel/UCuR_Pef577Jm4RpoBbyON3A
 permalink: journal/:year/:month/:day/:hour:minute:second-:title.html
