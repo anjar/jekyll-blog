@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Remove All Docker Container and Images"
-date:   2014-09-12 16:45:11 +0700
+date:   2017-01-26 13:45:11 +0700
 categories: docker
 tags : [Docker, Images, Container]
 
