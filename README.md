@@ -1,2 +1,2 @@
-# febrianjar.github.io
-My Site with Jekyll, see http://anjarweb.xyz
+# anjar.github.io
+My Site with Jekyll, see https://anjar.pw
