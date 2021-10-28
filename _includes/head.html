@@ -13,7 +13,7 @@
   <meta name="keywords" content="{% if page.keyword %}{{ page.keyword }}{% else %}{{ site.keyword }}{% endif %}" />
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="{% if page.image %}{{ page.image | prepend: site.url }}{% else %}{{ "/assets/img/khanza.jpg" | prepend: site.url }}{% endif %}">
+  <meta property="og:image" content="{% if page.image %}{{ page.image | prepend: site.url }}{% else %}{{ "/assets/img/user.jpg" | prepend: site.url }}{% endif %}">
   <meta property="og:site_name" content="anxfeb">
   <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
@@ -27,5 +27,4 @@
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
   <link rel="shortcut icon" href="{{ "/assets/favicon.ico" | prepend: site.url }}">
 
-  <meta name="google-site-verification" content="bdKnEhHd_6Mvz7xPzZ9_wUQk_-95PiLGWWBAtAVsOtc" />
-</head>
+ </head>
